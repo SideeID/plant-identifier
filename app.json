@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "PlantIdentifier",
-    "slug": "PlantIdentifier",
+    "slug": "plantidentifier",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,15 +20,17 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.sideid.PlantIdentifier"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "812b76a5-812f-4ac9-a2aa-ab2b8d9395b1"
+        "projectId": "9e127baa-b302-4325-9e34-1ffd62ba1460"
       }
-    }
+    },
+    "owner": "sideid"
   }
 }
