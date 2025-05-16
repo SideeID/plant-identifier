@@ -5,10 +5,8 @@ import { LogBox, StatusBar, View, Text, StyleSheet } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from './src/theme/colors';
 
-// Keep the splash screen visible while we initialize the app
 SplashScreen.preventAutoHideAsync();
 
-// Ignore specific warnings - useful for development
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
   'ViewPropTypes will be removed from React Native',
@@ -21,7 +19,6 @@ export default function App() {
   useEffect(() => {
     async function prepare() {
       try {
-        // Simulating resource loading time
         await new Promise((resolve) => setTimeout(resolve, 1000));
       } catch (e) {
         console.warn('Error initializing app:', e);
