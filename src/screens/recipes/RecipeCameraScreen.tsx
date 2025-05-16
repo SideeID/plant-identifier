@@ -59,7 +59,7 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
       if (!result.canceled && result.assets && result.assets.length > 0) {
         navigation.navigate(Routes.RecipeResult, {
           imageUri: result.assets[0].uri,
-          useMockData: false, 
+          useMockData: false,
         });
       }
     } catch (error) {
@@ -80,7 +80,7 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
       if (imageUri) {
         navigation.navigate(Routes.RecipeResult, {
           imageUri,
-          useMockData: false, 
+          useMockData: false,
         });
       }
     } catch (error) {
@@ -113,52 +113,89 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.cameraContainer}>
-        <View style={styles.camera}>
-          <View style={styles.overlay}>
-            <View style={styles.targetBox} />
-            <Text style={styles.placeholderText}>
-              Tekan tombol kamera untuk mengambil foto
+    <SafeAreaView style={styles.modernContainer}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Temukan Resep</Text>
+      </View>
+
+      <View style={styles.content}>
+        <View style={styles.instructionCard}>
+          <MaterialIcons name='restaurant' size={50} color={colors.primary} />
+          <Text style={styles.instructionTitle}>
+            Cara Mendapatkan Ide Resep
+          </Text>
+
+          <View style={styles.stepContainer}>
+            <View style={styles.stepBadge}>
+              <Text style={styles.stepNumber}>1</Text>
+            </View>
+            <Text style={styles.stepText}>
+              Ambil foto bahan makanan dengan jelas
+            </Text>
+          </View>
+
+          <View style={styles.stepContainer}>
+            <View style={styles.stepBadge}>
+              <Text style={styles.stepNumber}>2</Text>
+            </View>
+            <Text style={styles.stepText}>
+              Pastikan pencahayaan baik dan bahan terlihat jelas
+            </Text>
+          </View>
+
+          <View style={styles.stepContainer}>
+            <View style={styles.stepBadge}>
+              <Text style={styles.stepNumber}>3</Text>
+            </View>
+            <Text style={styles.stepText}>
+              Sistem akan merekomendasikan resep yang cocok
             </Text>
           </View>
         </View>
       </View>
 
-      <View style={styles.controls}>
-        <Text style={styles.instruction}>
-          Ambil foto bahan makanan dengan jelas untuk mendapatkan ide resep
+      <View style={styles.actionContainer}>
+        <Text style={styles.actionText}>
+          Pilih cara untuk mengambil gambar:
         </Text>
 
-        <View style={styles.buttonRow}>
+        <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={styles.button}
-            onPress={handlePickImage}
-            disabled={isProcessing || isPickerLoading}
-          >
-            <MaterialIcons
-              name='photo-library'
-              size={28}
-              color={colors.white}
-            />
-            <Text style={styles.buttonText}>Galeri</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.button, styles.captureButton]}
+            style={styles.actionButton}
             onPress={handleCameraCapture}
             disabled={isProcessing}
           >
             {isProcessing ? (
-              <ActivityIndicator size='large' color={colors.white} />
+              <ActivityIndicator size='small' color={colors.white} />
             ) : (
-              <View style={styles.captureButtonInner} />
+              <>
+                <MaterialIcons
+                  name='camera-alt'
+                  size={28}
+                  color={colors.white}
+                />
+                <Text style={styles.actionButtonText}>Kamera</Text>
+              </>
             )}
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button}>
-            <MaterialIcons name='info-outline' size={28} color={colors.white} />
-            <Text style={styles.buttonText}>Bantuan</Text>
+          <TouchableOpacity
+            style={[styles.actionButton, styles.galleryButton]}
+            onPress={handlePickImage}
+            disabled={isProcessing || isPickerLoading}
+          >
+            {isPickerLoading ? (
+              <ActivityIndicator size='small' color={colors.white} />
+            ) : (
+              <>
+                <MaterialIcons
+                  name='photo-library'
+                  size={28}
+                  color={colors.white}
+                />
+                <Text style={styles.actionButtonText}>Galeri</Text>
+              </>
+            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -171,80 +208,105 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
   },
+  modernContainer: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
   centeredContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     padding: spacing.lg,
   },
-  cameraContainer: {
-    flex: 1,
-    overflow: 'hidden',
-  },
-  camera: {
-    flex: 1,
-    backgroundColor: '#1a1a1a',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  overlay: {
-    flex: 1,
-    width: '100%',
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  targetBox: {
-    width: 250,
-    height: 250,
-    borderWidth: 2,
-    borderColor: colors.white,
-    borderRadius: 8,
-    opacity: 0.7,
-  },
-  placeholderText: {
-    marginTop: spacing.md,
-    color: colors.white,
-    opacity: 0.7,
-    fontSize: typography.fontSizes.body,
-  },
-  controls: {
+  header: {
     padding: spacing.md,
-    backgroundColor: colors.black,
-  },
-  instruction: {
-    color: colors.white,
-    fontSize: typography.fontSizes.body,
-    textAlign: 'center',
-    marginBottom: spacing.md,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
     alignItems: 'center',
-    paddingVertical: spacing.md,
   },
-  button: {
-    alignItems: 'center',
+  title: {
+    fontSize: typography.fontSizes.heading.large,
+    fontWeight: '700',
+    color: colors.primary,
+  },
+  content: {
+    flex: 1,
+    padding: spacing.md,
     justifyContent: 'center',
   },
-  captureButton: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+  instructionCard: {
+    backgroundColor: '#f8f8f8',
+    borderRadius: spacing.md,
+    padding: spacing.lg,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  instructionTitle: {
+    fontSize: typography.fontSizes.subheading.large,
+    fontWeight: '600',
+    marginTop: spacing.md,
+    marginBottom: spacing.lg,
+    color: colors.textPrimary,
+  },
+  stepContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: spacing.md,
+    width: '100%',
+  },
+  stepBadge: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
     backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: spacing.sm,
   },
-  captureButtonInner: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: colors.white,
-  },
-  buttonText: {
+  stepNumber: {
     color: colors.white,
-    marginTop: spacing.xs,
+    fontWeight: '600',
     fontSize: typography.fontSizes.small,
+  },
+  stepText: {
+    fontSize: typography.fontSizes.body,
+    color: colors.textPrimary,
+    flex: 1,
+  },
+  actionContainer: {
+    padding: spacing.lg,
+  },
+  actionText: {
+    fontSize: typography.fontSizes.body,
+    color: colors.textPrimary,
+    marginBottom: spacing.md,
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  actionButton: {
+    flex: 1,
+    backgroundColor: colors.primary,
+    borderRadius: spacing.md,
+    padding: spacing.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: spacing.xs,
+    flexDirection: 'row',
+  },
+  galleryButton: {
+    backgroundColor: colors.secondary,
+  },
+  actionButtonText: {
+    color: colors.white,
+    fontWeight: '600',
+    fontSize: typography.fontSizes.body,
+    marginLeft: spacing.sm,
   },
   permissionText: {
     color: colors.white,
