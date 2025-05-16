@@ -1,12 +1,12 @@
-import { app } from './app.json';
+import appJson from './app.json';
 
 export default ({ config }) => {
   return {
-    ...app.expo,
+    ...appJson.expo,
     extra: {
-      ...app.expo.extra,
+      ...appJson.expo.extra,
       geminiApiKey: process.env.EXPO_PUBLIC_GEMINI_API_KEY,
-      eas: app.expo.extra.eas,
+      eas: appJson.expo.extra?.eas,
     },
   };
 };
