@@ -3,7 +3,6 @@ import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { Alert, Platform } from 'react-native';
 
-// Safely get CameraType from expo-camera
 const CameraTypes = {
   front: 'front',
   back: 'back',
@@ -14,8 +13,8 @@ interface UseCameraOptions {
 }
 
 interface UseCameraReturn {
-  camera: React.RefObject<any>; // Using 'any' to avoid type issues with Camera
-  type: any; // Use any for Camera type to avoid type issues
+  camera: React.RefObject<any>;
+  type: any;
   permission: boolean | null;
   isReady: boolean;
   takePicture: () => Promise<string | null>;
@@ -33,7 +32,6 @@ export const useCamera = (options: UseCameraOptions = {}): UseCameraReturn => {
   const [isReady, setIsReady] = useState(false);
   const camera = useRef<any>(null);
 
-  // Request camera permissions on mount
   useEffect(() => {
     requestPermission();
     if (saveToGallery) {
@@ -41,7 +39,6 @@ export const useCamera = (options: UseCameraOptions = {}): UseCameraReturn => {
     }
   }, []);
 
-  // Request camera permission
   const requestPermission = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
     const granted = status === 'granted';
@@ -57,7 +54,6 @@ export const useCamera = (options: UseCameraOptions = {}): UseCameraReturn => {
     return granted;
   };
 
-  // Request media library permission
   const requestMediaLibraryPermission = async () => {
     if (!saveToGallery) return true;
 
@@ -73,14 +69,13 @@ export const useCamera = (options: UseCameraOptions = {}): UseCameraReturn => {
     }
 
     return granted;
-  }; // Toggle between front and back camera
+  }; 
   const toggleCameraType = () => {
     setType((current) =>
       current === CameraTypes.back ? CameraTypes.front : CameraTypes.back,
     );
   };
 
-  // Take a picture
   const takePicture = async (): Promise<string | null> => {
     if (!camera.current || !permission) {
       Alert.alert('Error', 'Camera not available or permission not granted.');
@@ -90,7 +85,6 @@ export const useCamera = (options: UseCameraOptions = {}): UseCameraReturn => {
     try {
       const photo = await camera.current.takePictureAsync();
 
-      // Save to gallery if requested and permission granted
       if (saveToGallery && mediaLibraryPermission) {
         await MediaLibrary.saveToLibraryAsync(photo.uri);
       }
