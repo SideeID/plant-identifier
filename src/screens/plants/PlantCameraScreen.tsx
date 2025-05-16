@@ -32,13 +32,11 @@ const PlantCameraScreen: React.FC<PlantCameraScreenProps> = ({
     null,
   );
 
-  // Use image picker
   const { pickImage, isLoading: isPickerLoading } = useImagePicker({
     aspect: [4, 3],
     quality: 0.8,
   });
 
-  // Request camera permission
   useEffect(() => {
     (async () => {
       const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -46,13 +44,11 @@ const PlantCameraScreen: React.FC<PlantCameraScreenProps> = ({
     })();
   }, []);
 
-  // Handle camera capture using ImagePicker
   const handleCameraCapture = async () => {
     if (isProcessing) return;
 
     try {
       setIsProcessing(true);
-      // Using "images" string instead of deprecated MediaTypeOptions
       const result = await ImagePicker.launchCameraAsync({
         mediaTypes: 'images',
         allowsEditing: true,
@@ -63,7 +59,7 @@ const PlantCameraScreen: React.FC<PlantCameraScreenProps> = ({
       if (!result.canceled && result.assets && result.assets.length > 0) {
         navigation.navigate(Routes.PlantResult, {
           imageUri: result.assets[0].uri,
-          useMockData: false, // Use actual Gemini API
+          useMockData: false,
         });
       }
     } catch (error) {
@@ -95,13 +91,12 @@ const PlantCameraScreen: React.FC<PlantCameraScreenProps> = ({
     }
   };
 
-  // Render permission denied screen
   if (cameraPermission === false) {
     return (
       <View style={[styles.container, styles.centeredContainer]}>
         <MaterialIcons name='no-photography' size={60} color={colors.error} />
         <Text style={styles.permissionText}>
-          Camera access is required to capture plant images.
+          Akses kamera diperlukan untuk menangkap gambar tanaman.
         </Text>
         <TouchableOpacity
           style={styles.permissionButton}
@@ -111,7 +106,7 @@ const PlantCameraScreen: React.FC<PlantCameraScreenProps> = ({
             setCameraPermission(status === 'granted');
           }}
         >
-          <Text style={styles.permissionButtonText}>Grant Permission</Text>
+          <Text style={styles.permissionButtonText}>Berikan Izin</Text>
         </TouchableOpacity>
       </View>
     );
@@ -119,13 +114,12 @@ const PlantCameraScreen: React.FC<PlantCameraScreenProps> = ({
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Camera Placeholder */}
       <View style={styles.cameraContainer}>
         <View style={styles.camera}>
           <View style={styles.overlay}>
             <View style={styles.targetBox} />
             <Text style={styles.placeholderText}>
-              Press the camera button to take a photo
+              Tekan tombbol kamera untuk mengambil foto
             </Text>
           </View>
         </View>
@@ -133,7 +127,7 @@ const PlantCameraScreen: React.FC<PlantCameraScreenProps> = ({
 
       <View style={styles.controls}>
         <Text style={styles.instruction}>
-          Take a clear photo of the plant you want to identify
+          Ambil foto tanaman yan ingin Anda Identifikasi
         </Text>
 
         <View style={styles.buttonRow}>
@@ -188,7 +182,7 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
-    backgroundColor: '#1a1a1a', // Dark placeholder
+    backgroundColor: '#1a1a1a',
     justifyContent: 'center',
     alignItems: 'center',
   },
