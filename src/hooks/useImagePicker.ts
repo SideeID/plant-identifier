@@ -25,7 +25,6 @@ export const useImagePicker = (
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Request media library permission
   const requestPermission = async () => {
     try {
       const { status } =
@@ -47,13 +46,11 @@ export const useImagePicker = (
     }
   };
 
-  // Pick image from gallery
   const pickImage = async (): Promise<string | null> => {
     setIsLoading(true);
     setError(null);
 
     try {
-      // Ensure permission is granted
       const hasPermission = await requestPermission();
       if (!hasPermission) {
         setIsLoading(false);
@@ -71,7 +68,6 @@ export const useImagePicker = (
         setSelectedImage(result.assets[0].uri);
         return result.assets[0].uri;
       } else {
-        // User cancelled the picker
         return null;
       }
     } catch (err) {
