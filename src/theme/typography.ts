@@ -1,4 +1,3 @@
-// Typography styles based on the design system
 export const typography = {
   fontSizes: {
     heading: {

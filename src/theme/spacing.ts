@@ -1,4 +1,3 @@
-// Spacing constants for consistent layout
 export const spacing = {
   xs: 4,
   sm: 8,

@@ -1,4 +1,3 @@
-// Colors based on the provided design system
 export const colors = {
   primary: '#4CAF50',
   secondary: '#FF9800',
