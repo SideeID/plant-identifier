@@ -1,12 +1,9 @@
-// App-wide constants
 
-// Feature flags
 export const FEATURES = {
-  USE_MOCK_API: __DEV__, // Use mock API responses in development
-  ENABLE_ANALYTICS: !__DEV__, // Only enable analytics in production
+  USE_MOCK_API: __DEV__,
+  ENABLE_ANALYTICS: !__DEV__, 
 };
 
-// Image constants
 export const IMAGE = {
   MAX_SIZE_MB: 5,
   ALLOWED_EXTENSIONS: ['jpg', 'jpeg', 'png'],
@@ -14,14 +11,12 @@ export const IMAGE = {
   COMPRESSION_RATIO: 0.7,
 };
 
-// API constants
 export const API = {
-  TIMEOUT_MS: 30000, // 30 seconds
+  TIMEOUT_MS: 30000, 
   RETRY_ATTEMPTS: 3,
-  MOCK_DELAY_MS: 2000, // Delay for mock API responses
+  MOCK_DELAY_MS: 2000, 
 };
 
-// Storage keys
 export const STORAGE_KEYS = {
   HISTORY: 'app_history',
   RECENT_PLANTS: 'recent_plants',
@@ -29,17 +24,14 @@ export const STORAGE_KEYS = {
   USER_PREFERENCES: 'user_preferences',
 };
 
-// Navigation constants
 export const ANIMATION = {
   DURATION: 300, // ms
 };
 
-// User interface constants
 export const UI = {
   LOADING_TIMEOUT: 15000, // 15 seconds
 };
 
-// Error messages
 export const ERROR_MESSAGES = {
   CAMERA_PERMISSION: 'Camera permission is required to use this feature',
   GALLERY_PERMISSION: 'Gallery access is required to use this feature',
@@ -49,7 +41,6 @@ export const ERROR_MESSAGES = {
   UNKNOWN: 'An unknown error occurred. Please try again.',
 };
 
-// Success messages
 export const SUCCESS_MESSAGES = {
   IMAGE_CAPTURED: 'Image captured successfully!',
   IDENTIFICATION_COMPLETE: 'Identification complete!',

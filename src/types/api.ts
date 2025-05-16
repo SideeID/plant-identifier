@@ -1,4 +1,3 @@
-// Gemini API response types
 export interface GeminiResponsePart {
   text: string;
 }
@@ -18,7 +17,6 @@ export interface GeminiResponse {
   promptFeedback: any;
 }
 
-// API request types
 export interface GeminiRequestPart {
   text?: string;
   inline_data?: {

@@ -3,25 +3,21 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { Alert, Linking, Platform } from 'react-native';
 
-// Request camera permissions
 export const requestCameraPermission = async (): Promise<boolean> => {
   const { status } = await Camera.requestCameraPermissionsAsync();
   return status === 'granted';
 };
 
-// Request media library permissions
 export const requestMediaLibraryPermission = async (): Promise<boolean> => {
   const { status } = await MediaLibrary.requestPermissionsAsync();
   return status === 'granted';
 };
 
-// Request image picker permissions
 export const requestImagePickerPermission = async (): Promise<boolean> => {
   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
   return status === 'granted';
 };
 
-// Check if a permission is granted
 export const checkPermission = async (
   permission: 'camera' | 'mediaLibrary' | 'imagePicker',
 ): Promise<boolean> => {
@@ -44,7 +40,6 @@ export const checkPermission = async (
   }
 };
 
-// Show alert to direct user to settings when permission is denied
 export const showPermissionAlert = (
   permissionType: string,
   onCancel?: () => void,

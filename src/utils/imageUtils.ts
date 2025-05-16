@@ -1,14 +1,12 @@
 import * as FileSystem from 'expo-file-system';
 import { Platform } from 'react-native';
 
-// Generate a unique filename for an image
 export const generateUniqueFilename = (extension: string = 'jpg'): string => {
   const timestamp = new Date().getTime();
   const random = Math.floor(Math.random() * 10000);
   return `image_${timestamp}_${random}.${extension}`;
 };
 
-// Get file information (size, type, etc.)
 export const getFileInfo = async (fileUri: string): Promise<any> => {
   try {
     const fileInfo = await FileSystem.getInfoAsync(fileUri);
@@ -19,13 +17,11 @@ export const getFileInfo = async (fileUri: string): Promise<any> => {
   }
 };
 
-// Get image extension from uri
 export const getImageExtension = (uri: string): string => {
   const splitUri = uri.split('.');
   return splitUri[splitUri.length - 1].toLowerCase();
 };
 
-// Check if image size is within limits
 export const isImageSizeValid = async (
   imageUri: string,
   maxSizeMB: number = 5,
@@ -40,7 +36,6 @@ export const isImageSizeValid = async (
   }
 };
 
-// Move temporary image to app's permanent storage
 export const moveImageToPermanentStorage = async (
   uri: string,
   filename?: string,
@@ -49,7 +44,6 @@ export const moveImageToPermanentStorage = async (
     const extension = getImageExtension(uri);
     const newFilename = filename || generateUniqueFilename(extension);
 
-    // Destination directory differs by platform
     const directory =
       Platform.OS === 'ios'
         ? FileSystem.documentDirectory
@@ -69,7 +63,6 @@ export const moveImageToPermanentStorage = async (
   }
 };
 
-// Delete an image file
 export const deleteImage = async (uri: string): Promise<void> => {
   try {
     await FileSystem.deleteAsync(uri);
