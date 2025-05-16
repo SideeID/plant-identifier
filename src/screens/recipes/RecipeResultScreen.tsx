@@ -41,7 +41,6 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
   >('ingredients');
   const { isLoading, error, identifyRecipe } = useGeminiAPI();
 
-  // Fetch recipe identification when component mounts
   useEffect(() => {
     const identifyRecipeImage = async () => {
       try {
@@ -57,54 +56,49 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
     identifyRecipeImage();
   }, [imageUri, useMockData]);
 
-  // Render loading state
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size='large' color={colors.secondary} />
         <Text style={styles.loadingText}>
-          Identifying ingredients and recipes...
+          Mengidentifikasi bahan dan resep...
         </Text>
       </View>
     );
   }
 
-  // Render error state
   if (error) {
     return (
       <View style={styles.errorContainer}>
         <MaterialIcons name='error-outline' size={60} color={colors.error} />
-        <Text style={styles.errorText}>Error: {error}</Text>
+        <Text style={styles.errorText}>Terjadi kesalahan: {error}</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.goBack()}
         >
-          <Text style={styles.buttonText}>Try Again</Text>
+          <Text style={styles.buttonText}>Coba Lagi</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
-  // Render empty result
   if (!result) {
     return (
       <View style={styles.errorContainer}>
         <MaterialIcons name='info-outline' size={60} color={colors.secondary} />
-        <Text style={styles.errorText}>No ingredients or recipes found.</Text>
+        <Text style={styles.errorText}>Tidak ditemukan bahan atau resep.</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.goBack()}
         >
-          <Text style={styles.buttonText}>Try Again</Text>
+          <Text style={styles.buttonText}>Coba Lagi</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
-  // Extract data from result
   const { detectedIngredients, suggestedRecipes, confidence } = result;
 
-  // Render ingredient list
   const renderIngredientItem = ({ item }: { item: Ingredient }) => {
     return (
       <View style={styles.ingredientItem}>
@@ -117,7 +111,6 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
     );
   };
 
-  // Render recipe card in the list
   const renderRecipeCard = ({ item }: { item: Recipe }) => {
     return (
       <TouchableOpacity
@@ -174,19 +167,18 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
     );
   };
 
-  // Render ingredients screen
   const renderIngredientsScreen = () => {
     return (
       <>
         <View style={styles.headerContainer}>
           <View>
-            <Text style={styles.headerTitle}>Detected Ingredients</Text>
+            <Text style={styles.headerTitle}>Bahan Terdeteksi</Text>
             <Text style={styles.headerSubtitle}>
-              {detectedIngredients.length} ingredients found
+              {detectedIngredients.length} bahan ditemukan
             </Text>
           </View>
           <View style={styles.confidenceContainer}>
-            <Text style={styles.confidenceLabel}>Confidence</Text>
+            <Text style={styles.confidenceLabel}>Tingkat Keyakinan</Text>
             <Text style={styles.confidenceValue}>
               {(confidence * 100).toFixed(1)}%
             </Text>
@@ -205,19 +197,18 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
           style={[styles.nextButton, { backgroundColor: colors.secondary }]}
           onPress={() => setViewMode('recipes')}
         >
-          <Text style={styles.nextButtonText}>View Recipe Suggestions</Text>
+          <Text style={styles.nextButtonText}>Lihat Saran Resep</Text>
           <MaterialIcons name='arrow-forward' size={20} color={colors.white} />
         </TouchableOpacity>
       </>
     );
   };
 
-  // Render recipes screen
   const renderRecipesScreen = () => {
     return (
       <>
         <View style={styles.headerContainer}>
-          <Text style={styles.headerTitle}>Recipe Suggestions</Text>
+          <Text style={styles.headerTitle}>Saran Resep</Text>
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => setViewMode('ingredients')}
@@ -228,7 +219,7 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
               color={colors.secondary}
             />
             <Text style={[styles.backButtonText, { color: colors.secondary }]}>
-              Ingredients
+              Bahan
             </Text>
           </TouchableOpacity>
         </View>
@@ -244,7 +235,6 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
     );
   };
 
-  // Render recipe detail screen
   const renderRecipeDetail = () => {
     if (!selectedRecipe) return null;
 
@@ -267,7 +257,7 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
               color={colors.secondary}
             />
             <Text style={[styles.backButtonText, { color: colors.secondary }]}>
-              Back to Recipes
+              Kembali ke Resep
             </Text>
           </TouchableOpacity>
         </View>
@@ -283,9 +273,9 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
                   size={20}
                   color={colors.secondary}
                 />
-                <Text style={styles.recipeMetadataLabel}>Prep</Text>
+                <Text style={styles.recipeMetadataLabel}>Persiapan</Text>
                 <Text style={styles.recipeMetadataValue}>
-                  {selectedRecipe.prepTime} min
+                  {selectedRecipe.prepTime} menit
                 </Text>
               </View>
 
@@ -295,9 +285,9 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
                   size={20}
                   color={colors.secondary}
                 />
-                <Text style={styles.recipeMetadataLabel}>Cook</Text>
+                <Text style={styles.recipeMetadataLabel}>Memasak</Text>
                 <Text style={styles.recipeMetadataValue}>
-                  {selectedRecipe.cookTime} min
+                  {selectedRecipe.cookTime} menit
                 </Text>
               </View>
 
@@ -307,7 +297,7 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
                   size={20}
                   color={colors.secondary}
                 />
-                <Text style={styles.recipeMetadataLabel}>Serves</Text>
+                <Text style={styles.recipeMetadataLabel}>Porsi</Text>
                 <Text style={styles.recipeMetadataValue}>
                   {selectedRecipe.servings}
                 </Text>
@@ -319,7 +309,9 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
                   size={20}
                   color={colors.secondary}
                 />
-                <Text style={styles.recipeMetadataLabel}>Difficulty</Text>
+                <Text style={styles.recipeMetadataLabel}>
+                  Tingkat Kesulitan
+                </Text>
                 <View
                   style={[
                     styles.difficultyBadge,
@@ -333,7 +325,7 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
               </View>
             </View>
 
-            <Text style={styles.sectionTitle}>Ingredients</Text>
+            <Text style={styles.sectionTitle}>Bahan</Text>
             {selectedRecipe.ingredients.map((ingredient, index) => (
               <View
                 key={`detail-ingredient-${index}`}
@@ -351,7 +343,7 @@ const RecipeResultScreen: React.FC<RecipeResultScreenProps> = ({
               </View>
             ))}
 
-            <Text style={styles.sectionTitle}>Instructions</Text>
+            <Text style={styles.sectionTitle}>Langkah-langkah</Text>
             {selectedRecipe.instructions.map((instruction, index) => (
               <View key={`instruction-${index}`} style={styles.instructionItem}>
                 <View style={styles.instructionNumber}>
@@ -664,7 +656,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// Helper function for difficulty badge style
 const getDifficultyBadgeStyle = (difficulty: string) => {
   switch (difficulty) {
     case 'easy':
