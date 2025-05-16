@@ -2,20 +2,16 @@ import { PlantIdentificationResult } from '../types/plants';
 import { identifyPlant } from '../api/gemini';
 import { compressImage, validateImage } from './imageProcessing';
 
-// Identify plant from image
 export const identifyPlantFromImage = async (
   imageUri: string,
 ): Promise<PlantIdentificationResult> => {
   try {
-    // Validate image
     if (!validateImage(imageUri)) {
       throw new Error('Invalid image format. Please use JPG or PNG.');
     }
 
-    // Compress image for better API performance
     const compressedImageUri = await compressImage(imageUri);
 
-    // Send to Gemini API
     const result = await identifyPlant(compressedImageUri);
 
     return result;
@@ -25,7 +21,6 @@ export const identifyPlantFromImage = async (
   }
 };
 
-// Mock data for testing when API is not available
 export const getMockPlantIdentification = (): PlantIdentificationResult => {
   return {
     plant: {
