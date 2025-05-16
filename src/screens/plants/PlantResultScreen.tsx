@@ -36,7 +36,6 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
     'overview' | 'disease' | 'treatment' | 'care' | 'more'
   >('overview');
 
-  // Fetch plant identification when component mounts
   useEffect(() => {
     const identifyPlantImage = async () => {
       try {
@@ -52,19 +51,17 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
     identifyPlantImage();
   }, [imageUri, useMockData]);
 
-  // Render loading state
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size='large' color={colors.primary} />
         <Text style={styles.loadingText}>
-          Analyzing plant and health conditions...
+          Menganalisis kondisi tanaman dan kesehatan...
         </Text>
       </View>
     );
   }
 
-  // Render error state
   if (error) {
     return (
       <View style={styles.errorContainer}>
@@ -74,18 +71,19 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
           style={styles.button}
           onPress={() => navigation.goBack()}
         >
-          <Text style={styles.buttonText}>Try Again</Text>
+          <Text style={styles.buttonText}>Coba Lagi</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
-  // Render empty result
   if (!result) {
     return (
       <View style={styles.errorContainer}>
         <MaterialIcons name='info-outline' size={60} color={colors.secondary} />
-        <Text style={styles.errorText}>No plant data found.</Text>
+        <Text style={styles.errorText}>
+          Tidak ada data tanaman yang ditemukan.
+        </Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.goBack()}
@@ -96,7 +94,6 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
     );
   }
 
-  // Extract data from result
   const { plant, confidence, detectedDisease, analysis } = result;
 
   const renderSeverityBadge = (severity: string | undefined) => {
@@ -133,22 +130,22 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
     switch (true) {
       case healthStatus.includes('excellent') ||
         healthStatus.includes('very good'):
-        statusColor = '#4CAF50'; // Green
+        statusColor = '#4CAF50';
         break;
       case healthStatus.includes('good'):
-        statusColor = '#8BC34A'; // Light Green
+        statusColor = '#8BC34A';
         break;
       case healthStatus.includes('fair'):
-        statusColor = '#FFC107'; // Amber
+        statusColor = '#FFC107';
         break;
       case healthStatus.includes('poor'):
-        statusColor = '#FF9800'; // Orange
+        statusColor = '#FF9800';
         break;
       case healthStatus.includes('critical') || healthStatus.includes('bad'):
-        statusColor = '#F44336'; // Red
+        statusColor = '#F44336';
         break;
       default:
-        statusColor = '#9E9E9E'; // Gray
+        statusColor = '#9E9E9E';
     }
 
     return (
@@ -163,7 +160,6 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        {/* Plant Image */}
         <View style={styles.imageContainer}>
           <Image
             source={{ uri: imageUri }}
@@ -172,7 +168,6 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
           />
         </View>
 
-        {/* Plant Info Header */}
         <View style={styles.infoHeader}>
           <View style={styles.nameContainer}>
             <Text style={styles.plantName}>{plant.name}</Text>
@@ -186,16 +181,15 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
           </View>
         </View>
 
-        {/* Health Status Banner */}
         {analysis && (
           <View style={styles.healthBanner}>
             <View style={styles.healthStatus}>
-              <Text style={styles.healthLabel}>Plant Health:</Text>
+              <Text style={styles.healthLabel}>Kesehatan:</Text>
               {renderOverallHealthIndicator(analysis.overallHealth)}
             </View>
             {analysis.growthStage && (
               <View style={styles.growthStage}>
-                <Text style={styles.growthStageLabel}>Growth Stage:</Text>
+                <Text style={styles.growthStageLabel}>Pertumbuhan:</Text>
                 <Text style={styles.growthStageValue}>
                   {analysis.growthStage}
                 </Text>
@@ -204,7 +198,6 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
           </View>
         )}
 
-        {/* Tab Navigation */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -221,7 +214,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                   activeTab === 'overview' && styles.activeTabText,
                 ]}
               >
-                Overview
+                Ringkasan
               </Text>
             </TouchableOpacity>
 
@@ -240,7 +233,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                       activeTab === 'disease' && styles.activeTabText,
                     ]}
                   >
-                    Disease
+                    Penyakit
                   </Text>
                 </TouchableOpacity>
 
@@ -257,7 +250,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                       activeTab === 'treatment' && styles.activeTabText,
                     ]}
                   >
-                    Treatment
+                    Penanganan
                   </Text>
                 </TouchableOpacity>
               </>
@@ -274,7 +267,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                     activeTab === 'care' && styles.activeTabText,
                   ]}
                 >
-                  Care Guide
+                  Perawatan
                 </Text>
               </TouchableOpacity>
             )}
@@ -289,18 +282,16 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                   activeTab === 'more' && styles.activeTabText,
                 ]}
               >
-                More Info
+                Info Lainnya
               </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
 
-        {/* Tab Content */}
         <View style={styles.tabContent}>
-          {/* Overview Tab */}
           {activeTab === 'overview' && (
             <View>
-              <Text style={styles.sectionHeading}>Plant Description</Text>
+              <Text style={styles.sectionHeading}>Deskripsi Tanaman</Text>
               <Text style={styles.description}>{plant.description}</Text>
 
               {analysis &&
@@ -308,7 +299,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                 analysis.recommendedActions.length > 0 && (
                   <View>
                     <Text style={styles.sectionHeading}>
-                      Recommended Actions
+                      Tindakan yang Disarankan
                     </Text>
                     {analysis.recommendedActions.map((action, index) => (
                       <View key={index} style={styles.listItem}>
@@ -332,10 +323,10 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                   />
                   <View style={styles.diseaseAlertContent}>
                     <Text style={styles.diseaseAlertText}>
-                      Disease detected: {detectedDisease.name}
+                      Penyakit terdeteksi: {detectedDisease.name}
                     </Text>
                     <Text style={styles.diseaseAlertSubtext}>
-                      Tap on the Disease tab for detailed information
+                      Ketuk tab Penyakit untuk informasi terperinci
                     </Text>
                   </View>
                   {renderSeverityBadge(detectedDisease.severity)}
@@ -344,10 +335,9 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
             </View>
           )}
 
-          {/* Disease Tab */}
           {activeTab === 'disease' && detectedDisease && (
             <View>
-              <Text style={styles.sectionHeading}>Disease Information</Text>
+              <Text style={styles.sectionHeading}>Informasi Penyakit</Text>
               <Text style={styles.diseaseName}>{detectedDisease.name}</Text>
               {detectedDisease.scientificName && (
                 <Text style={styles.diseaseScientificName}>
@@ -363,7 +353,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
 
               {detectedDisease.developmentStage && (
                 <>
-                  <Text style={styles.subHeading}>Disease Stage</Text>
+                  <Text style={styles.subHeading}>Tahap Penyakit</Text>
                   <View style={styles.infoCard}>
                     <Text style={styles.infoCardText}>
                       {detectedDisease.developmentStage}
@@ -374,7 +364,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
 
               {detectedDisease.potentialImpact && (
                 <>
-                  <Text style={styles.subHeading}>Potential Impact</Text>
+                  <Text style={styles.subHeading}>Dampak Potensial</Text>
                   <View style={styles.infoCard}>
                     <Text style={styles.infoCardText}>
                       {detectedDisease.potentialImpact}
@@ -383,7 +373,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                 </>
               )}
 
-              <Text style={styles.subHeading}>Symptoms</Text>
+              <Text style={styles.subHeading}>Gejala</Text>
               <View style={styles.infoCard}>
                 {detectedDisease.symptoms.map((symptom, index) => (
                   <View key={index} style={styles.listItem}>
@@ -397,7 +387,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                 ))}
               </View>
 
-              <Text style={styles.subHeading}>Causes</Text>
+              <Text style={styles.subHeading}>Penyebab</Text>
               <View style={styles.infoCard}>
                 {detectedDisease.causes.map((cause, index) => (
                   <View key={index} style={styles.listItem}>
@@ -413,7 +403,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
 
               {detectedDisease.spreadRisk && (
                 <>
-                  <Text style={styles.subHeading}>Risk of Spread</Text>
+                  <Text style={styles.subHeading}>Risiko Penyebaran</Text>
                   <View style={styles.infoCard}>
                     <Text style={styles.infoCardText}>
                       {detectedDisease.spreadRisk}
@@ -424,7 +414,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
 
               {detectedDisease.diagnosticNotes && (
                 <>
-                  <Text style={styles.subHeading}>Diagnostic Notes</Text>
+                  <Text style={styles.subHeading}>Catatan Diagnostik</Text>
                   <View style={styles.infoCard}>
                     <Text style={styles.infoCardText}>
                       {detectedDisease.diagnosticNotes}
@@ -434,20 +424,19 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
               )}
 
               <View style={styles.severityContainer}>
-                <Text style={styles.severityLabel}>Severity:</Text>
+                <Text style={styles.severityLabel}>Tingkat Keparahan:</Text>
                 {renderSeverityBadge(detectedDisease.severity)}
               </View>
             </View>
           )}
 
-          {/* Treatment Tab */}
           {activeTab === 'treatment' && detectedDisease && (
             <View>
-              <Text style={styles.sectionHeading}>Treatment Options</Text>
+              <Text style={styles.sectionHeading}>Opsi Penanganan</Text>
 
               {detectedDisease.treatmentSchedule && (
                 <>
-                  <Text style={styles.subHeading}>Treatment Schedule</Text>
+                  <Text style={styles.subHeading}>Jadwal Penanganan</Text>
                   <View style={styles.infoCard}>
                     <Text style={styles.infoCardText}>
                       {detectedDisease.treatmentSchedule}
@@ -459,7 +448,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
               {detectedDisease.organicSolutions &&
                 detectedDisease.organicSolutions.length > 0 && (
                   <>
-                    <Text style={styles.subHeading}>Organic Solutions</Text>
+                    <Text style={styles.subHeading}>Solusi Organik</Text>
                     <View style={styles.infoCard}>
                       {detectedDisease.organicSolutions.map(
                         (solution, index) => (
@@ -480,7 +469,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
               {detectedDisease.chemicalSolutions &&
                 detectedDisease.chemicalSolutions.length > 0 && (
                   <>
-                    <Text style={styles.subHeading}>Chemical Solutions</Text>
+                    <Text style={styles.subHeading}>Solusi Kimia</Text>
                     <View style={styles.infoCard}>
                       {detectedDisease.chemicalSolutions.map(
                         (solution, index) => (
@@ -498,7 +487,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                   </>
                 )}
 
-              <Text style={styles.subHeading}>General Treatments</Text>
+              <Text style={styles.subHeading}>Penanganan Umum</Text>
               <View style={styles.infoCard}>
                 {detectedDisease.treatments.map((treatment, index) => (
                   <View key={index} style={styles.listItem}>
@@ -512,7 +501,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                 ))}
               </View>
 
-              <Text style={styles.subHeading}>Prevention</Text>
+              <Text style={styles.subHeading}>Pencegahan</Text>
               <View style={styles.infoCard}>
                 {detectedDisease.preventions.map((prevention, index) => (
                   <View key={index} style={styles.listItem}>
@@ -529,7 +518,9 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
               {detectedDisease.recommendedProducts &&
                 detectedDisease.recommendedProducts.length > 0 && (
                   <>
-                    <Text style={styles.subHeading}>Recommended Products</Text>
+                    <Text style={styles.subHeading}>
+                      Produk yang Disarankan
+                    </Text>
                     <View style={styles.infoCard}>
                       {detectedDisease.recommendedProducts.map(
                         (product, index) => (
@@ -549,10 +540,11 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
             </View>
           )}
 
-          {/* Care Guide Tab */}
           {activeTab === 'care' && plant.careGuide && (
             <View>
-              <Text style={styles.sectionHeading}>Plant Care Guide</Text>
+              <Text style={styles.sectionHeading}>
+                Panduan Perawatan Tanaman
+              </Text>
 
               <View style={styles.careGuideContainer}>
                 <View style={styles.careGuideItem}>
@@ -563,7 +555,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                       color={colors.primary}
                     />
                   </View>
-                  <Text style={styles.careGuideTitle}>Watering</Text>
+                  <Text style={styles.careGuideTitle}>Penyiraman</Text>
                   <Text style={styles.careGuideText}>
                     {plant.careGuide.watering}
                   </Text>
@@ -577,7 +569,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                       color={colors.primary}
                     />
                   </View>
-                  <Text style={styles.careGuideTitle}>Fertilizing</Text>
+                  <Text style={styles.careGuideTitle}>Pemupukan</Text>
                   <Text style={styles.careGuideText}>
                     {plant.careGuide.fertilizing}
                   </Text>
@@ -591,7 +583,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                       color={colors.primary}
                     />
                   </View>
-                  <Text style={styles.careGuideTitle}>Pruning</Text>
+                  <Text style={styles.careGuideTitle}>Pemangkasan</Text>
                   <Text style={styles.careGuideText}>
                     {plant.careGuide.pruning}
                   </Text>
@@ -605,7 +597,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                       color={colors.primary}
                     />
                   </View>
-                  <Text style={styles.careGuideTitle}>Repotting</Text>
+                  <Text style={styles.careGuideTitle}>Penggantian Pot</Text>
                   <Text style={styles.careGuideText}>
                     {plant.careGuide.repotting}
                   </Text>
@@ -614,9 +606,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
 
               {plant.growingConditions && (
                 <>
-                  <Text style={styles.subHeading}>
-                    Ideal Growing Conditions
-                  </Text>
+                  <Text style={styles.subHeading}>Kondisi Tumbuh Ideal</Text>
                   <View style={styles.conditionsContainer}>
                     <View style={styles.conditionItem}>
                       <MaterialIcons
@@ -624,7 +614,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                         size={24}
                         color={colors.primary}
                       />
-                      <Text style={styles.conditionLabel}>Light</Text>
+                      <Text style={styles.conditionLabel}>Cahaya</Text>
                       <Text style={styles.conditionValue}>
                         {plant.growingConditions.light}
                       </Text>
@@ -636,7 +626,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                         size={24}
                         color={colors.primary}
                       />
-                      <Text style={styles.conditionLabel}>Water</Text>
+                      <Text style={styles.conditionLabel}>Air</Text>
                       <Text style={styles.conditionValue}>
                         {plant.growingConditions.water}
                       </Text>
@@ -648,7 +638,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                         size={24}
                         color={colors.primary}
                       />
-                      <Text style={styles.conditionLabel}>Soil</Text>
+                      <Text style={styles.conditionLabel}>Tanah</Text>
                       <Text style={styles.conditionValue}>
                         {plant.growingConditions.soil}
                       </Text>
@@ -660,7 +650,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                         size={24}
                         color={colors.primary}
                       />
-                      <Text style={styles.conditionLabel}>Temperature</Text>
+                      <Text style={styles.conditionLabel}>Suhu</Text>
                       <Text style={styles.conditionValue}>
                         {plant.growingConditions.temperature}
                       </Text>
@@ -672,7 +662,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                         size={24}
                         color={colors.primary}
                       />
-                      <Text style={styles.conditionLabel}>Humidity</Text>
+                      <Text style={styles.conditionLabel}>Kelembaban</Text>
                       <Text style={styles.conditionValue}>
                         {plant.growingConditions.humidity}
                       </Text>
@@ -683,14 +673,13 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
             </View>
           )}
 
-          {/* More Info Tab */}
           {activeTab === 'more' && (
             <View>
-              <Text style={styles.sectionHeading}>Additional Information</Text>
+              <Text style={styles.sectionHeading}>Informasi Tambahan</Text>
 
               {plant.funFacts && plant.funFacts.length > 0 && (
                 <View>
-                  <Text style={styles.subHeading}>Fun Facts</Text>
+                  <Text style={styles.subHeading}>Fakta Menarik</Text>
                   <View style={styles.funFactsContainer}>
                     {plant.funFacts.map((fact, index) => (
                       <View key={index} style={styles.funFactItem}>
@@ -713,7 +702,7 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                     size={24}
                     color={colors.primary}
                   />
-                  <Text style={styles.infoLabel}>Estimated Age:</Text>
+                  <Text style={styles.infoLabel}>Perkiraan Usia:</Text>
                   <Text style={styles.infoValue}>{analysis.estimatedAge}</Text>
                 </View>
               )}
@@ -725,13 +714,13 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                     size={24}
                     color={colors.primary}
                   />
-                  <Text style={styles.infoLabel}>Growth Stage:</Text>
+                  <Text style={styles.infoLabel}>Tahap Pertumbuhan:</Text>
                   <Text style={styles.infoValue}>{analysis.growthStage}</Text>
                 </View>
               )}
 
               <View style={styles.analysisSummary}>
-                <Text style={styles.subHeading}>Analysis Summary</Text>
+                <Text style={styles.subHeading}>Ringkasan Analisis</Text>
                 <View style={styles.analysisTimeContainer}>
                   <MaterialIcons
                     name='access-time'
@@ -739,15 +728,15 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
                     color={colors.textSecondary}
                   />
                   <Text style={styles.analysisTime}>
-                    Analysis performed on {result.timestamp.toLocaleString()}
+                    Analisis dilakukan pada {result.timestamp.toLocaleString()}
                   </Text>
                 </View>
                 <Text style={styles.confidenceSummary}>
-                  The plant was identified with {(confidence * 100).toFixed(1)}%
-                  confidence.
+                  Tanaman teridentifikasi dengan tingkat keyakinan{' '}
+                  {(confidence * 100).toFixed(1)}%.
                   {analysis?.issuesIdentified
-                    ? ' Issues were detected that require attention.'
-                    : ' No significant issues were detected.'}
+                    ? ' Terdapat masalah yang perlu diperhatikan.'
+                    : ' Tidak ada masalah signifikan yang terdeteksi.'}
                 </Text>
               </View>
             </View>
@@ -755,7 +744,6 @@ const PlantResultScreen: React.FC<PlantResultScreenProps> = ({
         </View>
       </ScrollView>
 
-      {/* Action Button */}
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => navigation.goBack()}

@@ -32,13 +32,11 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
     null,
   );
 
-  // Use image picker
   const { pickImage, isLoading: isPickerLoading } = useImagePicker({
     aspect: [4, 3],
     quality: 0.8,
   });
 
-  // Request camera permission
   useEffect(() => {
     (async () => {
       const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -46,7 +44,6 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
     })();
   }, []);
 
-  // Handle camera capture using ImagePicker
   const handleCameraCapture = async () => {
     if (isProcessing) return;
 
@@ -62,7 +59,7 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
       if (!result.canceled && result.assets && result.assets.length > 0) {
         navigation.navigate(Routes.RecipeResult, {
           imageUri: result.assets[0].uri,
-          useMockData: false, // Use actual Gemini API
+          useMockData: false, 
         });
       }
     } catch (error) {
@@ -73,7 +70,6 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
     }
   };
 
-  // Handle picking image from gallery
   const handlePickImage = async () => {
     if (isProcessing) return;
 
@@ -84,7 +80,7 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
       if (imageUri) {
         navigation.navigate(Routes.RecipeResult, {
           imageUri,
-          useMockData: false, // Use actual Gemini API
+          useMockData: false, 
         });
       }
     } catch (error) {
@@ -95,13 +91,12 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
     }
   };
 
-  // Render permission denied screen
   if (cameraPermission === false) {
     return (
       <View style={[styles.container, styles.centeredContainer]}>
         <MaterialIcons name='no-photography' size={60} color={colors.error} />
         <Text style={styles.permissionText}>
-          Camera access is required to capture ingredient images.
+          Akses kamera diperlukan untuk mengambil gambar bahan makanan.
         </Text>
         <TouchableOpacity
           style={styles.permissionButton}
@@ -111,7 +106,7 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
             setCameraPermission(status === 'granted');
           }}
         >
-          <Text style={styles.permissionButtonText}>Grant Permission</Text>
+          <Text style={styles.permissionButtonText}>Izinkan Akses Kamera</Text>
         </TouchableOpacity>
       </View>
     );
@@ -119,13 +114,12 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Camera Placeholder */}
       <View style={styles.cameraContainer}>
         <View style={styles.camera}>
           <View style={styles.overlay}>
             <View style={styles.targetBox} />
             <Text style={styles.placeholderText}>
-              Press the camera button to take a photo
+              Tekan tombol kamera untuk mengambil foto
             </Text>
           </View>
         </View>
@@ -133,7 +127,7 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
 
       <View style={styles.controls}>
         <Text style={styles.instruction}>
-          Take a clear photo of ingredients to get recipe ideas
+          Ambil foto bahan makanan dengan jelas untuk mendapatkan ide resep
         </Text>
 
         <View style={styles.buttonRow}>
@@ -147,7 +141,7 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
               size={28}
               color={colors.white}
             />
-            <Text style={styles.buttonText}>Gallery</Text>
+            <Text style={styles.buttonText}>Galeri</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -164,7 +158,7 @@ const RecipeCameraScreen: React.FC<RecipeCameraScreenProps> = ({
 
           <TouchableOpacity style={styles.button}>
             <MaterialIcons name='info-outline' size={28} color={colors.white} />
-            <Text style={styles.buttonText}>Help</Text>
+            <Text style={styles.buttonText}>Bantuan</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -188,7 +182,7 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
-    backgroundColor: '#1a1a1a', // Dark placeholder
+    backgroundColor: '#1a1a1a',
     justifyContent: 'center',
     alignItems: 'center',
   },
