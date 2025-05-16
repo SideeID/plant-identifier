@@ -1,4 +1,3 @@
-// Define the screen names as constants
 export enum Routes {
   Home = 'Home',
   PlantCamera = 'PlantCamera',
@@ -7,7 +6,6 @@ export enum Routes {
   RecipeResult = 'RecipeResult',
 }
 
-// Define the parameter types for each route
 export type RootStackParamList = {
   [Routes.Home]: undefined;
   [Routes.PlantCamera]: undefined;
@@ -22,5 +20,4 @@ export type RootStackParamList = {
   };
 };
 
-// Export the route names for use in the app
 export const ROUTES = Routes;
