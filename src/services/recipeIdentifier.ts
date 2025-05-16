@@ -2,20 +2,16 @@ import { RecipeIdentificationResult } from '../types/recipes';
 import { identifyRecipe } from '../api/gemini';
 import { compressImage, validateImage } from './imageProcessing';
 
-// Identify ingredients and recipes from image
 export const identifyRecipeFromImage = async (
   imageUri: string,
 ): Promise<RecipeIdentificationResult> => {
   try {
-    // Validate image
     if (!validateImage(imageUri)) {
       throw new Error('Invalid image format. Please use JPG or PNG.');
     }
 
-    // Compress image for better API performance
     const compressedImageUri = await compressImage(imageUri);
 
-    // Send to Gemini API
     const result = await identifyRecipe(compressedImageUri);
 
     return result;
@@ -25,7 +21,6 @@ export const identifyRecipeFromImage = async (
   }
 };
 
-// Mock data for testing when API is not available
 export const getMockRecipeIdentification = (): RecipeIdentificationResult => {
   return {
     detectedIngredients: [
