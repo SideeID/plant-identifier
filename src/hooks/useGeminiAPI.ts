@@ -26,7 +26,6 @@ interface UseGeminiAPIReturn {
 export const useGeminiAPI = (): UseGeminiAPIReturn => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  // Identify plant from image
   const identifyPlant = async (
     imageUri: string,
     useMock: boolean = false,
@@ -36,12 +35,10 @@ export const useGeminiAPI = (): UseGeminiAPIReturn => {
       setError(null);
 
       if (useMock) {
-        // Simulate API delay
         await new Promise((resolve) => setTimeout(resolve, 2000));
         return getMockPlantIdentification();
       }
 
-      // Use actual Gemini API
       const result = await identifyPlantFromImage(imageUri);
       return result;
     } catch (err) {
@@ -54,7 +51,6 @@ export const useGeminiAPI = (): UseGeminiAPIReturn => {
       setIsLoading(false);
     }
   };
-  // Identify recipe from image
   const identifyRecipe = async (
     imageUri: string,
     useMock: boolean = false,
@@ -64,12 +60,10 @@ export const useGeminiAPI = (): UseGeminiAPIReturn => {
       setError(null);
 
       if (useMock) {
-        // Simulate API delay
         await new Promise((resolve) => setTimeout(resolve, 2000));
         return getMockRecipeIdentification();
       }
 
-      // Use actual Gemini API
       const result = await identifyRecipeFromImage(imageUri);
       return result;
     } catch (err) {
